@@ -12,3 +12,19 @@ function getPlayerChoice() {
 
 const computerselection = getComputerChoice();
 const playerselection = getPlayerChoice();
+
+function playRound(playerSelection, computerSelection) {
+  if (playerSelection == computerSelection) {
+    return "tie";
+  } else if (
+    (playerSelection == "rock" && computerSelection == "scissors") ||
+    (playerSelection == "paper" && computerSelection == "rock") ||
+    (playerSelection == "scissors" && computerSelection == "paper")
+  ) {
+    return "You Won!!";
+  } else {
+    return "Computer Won!!";
+  }
+}
+
+// console.log(playRound(playerselection,computerselection));
