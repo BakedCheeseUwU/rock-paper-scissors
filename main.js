@@ -13,7 +13,7 @@ function getPlayerChoice() {
 const computerselection = getComputerChoice();
 const playerselection = getPlayerChoice();
 
-function playRound(playerSelection, computerSelection) {
+function checkWinner(playerSelection, computerSelection) {
   if (playerSelection == computerSelection) {
     return "tie";
   } else if (
@@ -21,10 +21,19 @@ function playRound(playerSelection, computerSelection) {
     (playerSelection == "paper" && computerSelection == "rock") ||
     (playerSelection == "scissors" && computerSelection == "paper")
   ) {
-    return "You Won!!";
+    return "Player Won";
   } else {
-    return "Computer Won!!";
+    return "Computer Won";
   }
 }
 
-// console.log(playRound(playerselection,computerselection));
+function playRound() {
+  const winner = checkWinner(playerselection, computerselection);
+  console.log(winner);
+}
+
+function game() {
+  playRound();
+}
+
+game();
