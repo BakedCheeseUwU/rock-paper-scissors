@@ -29,7 +29,7 @@ function playRound(playerselection){
   winners.push(winner);
   document.querySelector('.player-selection').textContent = `Player: ${playerselection}`;
   document.querySelector('.computer-selection').textContent = `Computer: ${computerselection}`; 
-  displayWins();
+  displayWins(winner);
 
   wins = checkWins();
   if(wins == 5){
@@ -59,11 +59,18 @@ function checkWins(){
   return Math.max(playerWins,computerWins);
 }
 
-function displayWins(){
+function displayWins(winner){
   let playerWins = winners.filter((item) => item == "Player").length;
   let computerWins = winners.filter((item) => item == "Computer").length;
   let ties = winners.filter((item) => item == "tie").length;
 
+  if(winner === 'Player'){
+    document.querySelector('.round-winner').textContent = "You won the round!"
+  }else if(winner === 'Computer'){
+    document.querySelector('.round-winner').textContent = "Computer won the round!"
+  }else{
+    document.querySelector('.round-winner').textContent = "Round Tied!"
+  }
   document.querySelector('.player-wins').textContent = `Player Won: ${playerWins} times`;
   document.querySelector('.computer-wins').textContent = `Computer Won: ${computerWins} times`;
   document.querySelector('.ties').textContent = `Ties: ${ties} times`;
