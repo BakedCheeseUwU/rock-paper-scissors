@@ -3,40 +3,6 @@ const roundWinner = document.querySelector(".match .winner");
 let playerScore = 0;
 let computerScore = 0;
 
-function checkWinner(playerSelection, computerSelection) {
-  if (playerSelection == computerSelection) {
-    roundWinner.textContent = "It's a Tie";
-    return;
-  } else if (
-    (playerSelection == "rock" && computerSelection == "scissors") ||
-    (playerSelection == "paper" && computerSelection == "rock") ||
-    (playerSelection == "scissors" && computerSelection == "paper")
-  ) {
-    roundWinner.textContent = "Player Wins";
-    playerScore++;
-    updateScore();
-    return;
-  } else {
-    roundWinner.textContent = "Computer Wins";
-    computerScore++;
-    updateScore();
-    return;
-  }
-}
-
-function playRound(playerselection, computerselection) {
-  let wins = checkWins();
-  if (wins >= 5) {
-    return;
-  }
-  const winner = checkWinner(playerselection, computerselection);
-  winners.push(winner);
-  wins = checkWins();
-  if (wins == 5) {
-    displayWinner();
-  }
-}
-
 function game() {
   // Fade Out/In The intro screen and main game screen
   const playBtn = document.querySelector(".intro button");
@@ -64,23 +30,45 @@ function game() {
   });
 }
 
-function checkWins() {
-  let playerWins = winners.filter((item) => item == "Player").length;
-  let computerWins = winners.filter((item) => item == "Computer").length;
-  return Math.max(playerWins, computerWins);
-}
+function playRound(playerselection, computerselection) {
+  if (playerScore == 5 || computerScore == 5) {
+    return;
+  }
+  const winner = checkWinner(playerselection, computerselection);
+  winners.push(winner);
 
-function displayWinner() {
-  let playerWins = winners.filter((item) => item == "Player").length;
-
-  if (playerWins == 5) {
+  // Only allow Players to play till someone wins 5 rounds
+  if (playerScore == 5 || computerScore == 5) {
+    if(playerScore == 5){
     roundWinner.textContent = "You Won The Game!"
-  } else {
+    }else{
     roundWinner.textContent = "Computer Won The Game!"
+    }
   }
 }
 
+function checkWinner(playerSelection, computerSelection) {
+  if (playerSelection == computerSelection) {
+    roundWinner.textContent = "It's a Tie";
+    return;
+  } else if (
+    (playerSelection == "rock" && computerSelection == "scissors") ||
+    (playerSelection == "paper" && computerSelection == "rock") ||
+    (playerSelection == "scissors" && computerSelection == "paper")
+  ) {
+    roundWinner.textContent = "Player Wins";
+    playerScore++;
+    updateScore();
+    return;
+  } else {
+    roundWinner.textContent = "Computer Wins";
+    computerScore++;
+    updateScore();
+    return;
+  }
+}
 
+// Updates The scoreboard
 function updateScore(){
   const pscore = document.querySelector('.player-score p')
   const cscore = document.querySelector('.computer-score p')
