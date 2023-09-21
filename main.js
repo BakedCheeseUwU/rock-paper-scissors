@@ -1,17 +1,26 @@
 const winners = [];
 const roundWinner = document.querySelector(".match .winner");
+let playerScore = 0;
+let computerScore = 0;
 
 function checkWinner(playerSelection, computerSelection) {
   if (playerSelection == computerSelection) {
     roundWinner.textContent = "It's a Tie";
+    return;
   } else if (
     (playerSelection == "rock" && computerSelection == "scissors") ||
     (playerSelection == "paper" && computerSelection == "rock") ||
     (playerSelection == "scissors" && computerSelection == "paper")
   ) {
     roundWinner.textContent = "Player Wins";
+    playerScore++;
+    updateScore();
+    return;
   } else {
     roundWinner.textContent = "Computer Wins";
+    computerScore++;
+    updateScore();
+    return;
   }
 }
 
@@ -69,6 +78,14 @@ function displayWinner() {
   } else {
     roundWinner.textContent = "Computer Won The Game!"
   }
+}
+
+
+function updateScore(){
+  const pscore = document.querySelector('.player-score p')
+  const cscore = document.querySelector('.computer-score p')
+  pscore.textContent = playerScore;
+  cscore.textContent = computerScore;
 }
 
 game();
