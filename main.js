@@ -1,88 +1,73 @@
-const rps = ["rock", "paper", "scissors"];
 const winners = [];
-
-function getComputerChoice() {
-  return rps[Math.floor(Math.random() * rps.length)];
-}
+const roundWinner = document.querySelector(".match .winner");
 
 function checkWinner(playerSelection, computerSelection) {
   if (playerSelection == computerSelection) {
-    return "tie";
+    roundWinner.textContent = "It's a Tie";
   } else if (
     (playerSelection == "rock" && computerSelection == "scissors") ||
     (playerSelection == "paper" && computerSelection == "rock") ||
     (playerSelection == "scissors" && computerSelection == "paper")
   ) {
-    return "Player";
+    roundWinner.textContent = "Player Wins";
   } else {
-    return "Computer";
+    roundWinner.textContent = "Computer Wins";
   }
 }
 
-function playRound(playerselection){
+function playRound(playerselection, computerselection) {
   let wins = checkWins();
-  if(wins>=5){
+  if (wins >= 5) {
     return;
   }
-  const computerselection = getComputerChoice();
   const winner = checkWinner(playerselection, computerselection);
   winners.push(winner);
-  document.querySelector('.player-selection').textContent = `Player: ${playerselection}`;
-  document.querySelector('.computer-selection').textContent = `Computer: ${computerselection}`; 
-  displayWins(winner);
-
   wins = checkWins();
-  if(wins == 5){
+  if (wins == 5) {
     displayWinner();
   }
 }
 
 function game() {
-  const buttons = document.querySelectorAll('button');
-  buttons.forEach((button) => { 
-    button.addEventListener('click',function (){
-      playRound(this.textContent.toLowerCase());
+  // Fade Out/In The intro screen and main game screen
+  const playBtn = document.querySelector(".intro button");
+  const introScreen = document.querySelector(".intro");
+  const match = document.querySelector(".match");
+  playBtn.addEventListener("click", () => {
+    introScreen.classList.add("fadeOut");
+    match.classList.add("fadeIn");
+  });
+
+  const options = document.querySelectorAll(".options button");
+  const playerHand = document.querySelector(".player-hand");
+  const computerHand = document.querySelector(".computer-hand");
+
+  // Change the hand signs and call function to play a round
+  // Play round with user choice and get computer choice
+  const rps = ["rock", "paper", "scissors"];
+  options.forEach((button) => {
+    button.addEventListener("click", function () {
+      const computerCoice = rps[Math.floor(Math.random() * rps.length)];
+      computerHand.src = `./assets/${computerCoice}.png`;
+      playerHand.src = `./assets/${this.textContent.toLowerCase()}.png`;
+      playRound(this.textContent.toLowerCase(), computerCoice);
     });
   });
 }
 
-function logWinners() {
-  let playerWins = winners.filter((item) => item == "Player");
-  let computerWins = winners.filter((item) => item == "Computer");
-  let ties = winners.filter((item) => item == "tie");
-}
-
-function checkWins(){
+function checkWins() {
   let playerWins = winners.filter((item) => item == "Player").length;
   let computerWins = winners.filter((item) => item == "Computer").length;
-
-  return Math.max(playerWins,computerWins);
+  return Math.max(playerWins, computerWins);
 }
 
-function displayWins(winner){
-  let playerWins = winners.filter((item) => item == "Player").length;
-  let computerWins = winners.filter((item) => item == "Computer").length;
-  let ties = winners.filter((item) => item == "tie").length;
-
-  if(winner === 'Player'){
-    document.querySelector('.round-winner').textContent = "You won the round!"
-  }else if(winner === 'Computer'){
-    document.querySelector('.round-winner').textContent = "Computer won the round!"
-  }else{
-    document.querySelector('.round-winner').textContent = "Round Tied!"
-  }
-  document.querySelector('.player-wins').textContent = `Player Won: ${playerWins} times`;
-  document.querySelector('.computer-wins').textContent = `Computer Won: ${computerWins} times`;
-  document.querySelector('.ties').textContent = `Ties: ${ties} times`;
-}
-
-function displayWinner(){
+function displayWinner() {
   let playerWins = winners.filter((item) => item == "Player").length;
 
-  if(playerWins == 5){
-    document.querySelector('.winner').textContent = "You won 5 times!!"
-  }else{
-    document.querySelector('.winner').textContent = "Computer won 5 times!!"
+  if (playerWins == 5) {
+    roundWinner.textContent = "You Won The Game!"
+  } else {
+    roundWinner.textContent = "Computer Won The Game!"
   }
 }
 
